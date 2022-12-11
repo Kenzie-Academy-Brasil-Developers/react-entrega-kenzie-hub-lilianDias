@@ -4,6 +4,8 @@ import { Input } from "./index";
 export const StyledInput = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  gap: 1.375rem;
 
   input {
     height: 3rem;

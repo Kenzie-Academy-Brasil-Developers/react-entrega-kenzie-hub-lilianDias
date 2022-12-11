@@ -37,20 +37,28 @@ export const Btn = styled.button`
           transition: 0.3s;
         `;
       default:
-        console.log("error");
+        return css`
+          background-color: transparent;
+          border: none;
+          color: var(--grey-1);
+        `;
     }
   }};
   ${({ btnSize }) => {
     switch (btnSize) {
       case "medium":
         return css`
-          /* height: 2.5rem; */
           padding: 1rem 0.094rem;
           text-align: center;
         `;
+      case "icon":
+        return css`
+          text-align: center;
+          height: 2rem;
+          width: 2rem;
+        `;
       default:
         return css`
-          /* height: 3.75rem; */
           padding: 0.625rem 1.375rem;
         `;
     }

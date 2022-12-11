@@ -2,21 +2,20 @@ import React from "react";
 import { Text } from "../../styles/tipography";
 import { Btn } from "../../styles/buttons/buttons";
 import { StyledForm } from "../../styles/form/form";
-import { Link, useNavigate } from "react-router-dom";
 import { LogoStyled } from "../../styles/logo";
 import logo from "../../assets/logo.svg";
 import { Input } from "../../components/input";
 import { TextStyled } from "../../styles/tipography/Text";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { api } from "../../api/api";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
 import { loginSchema } from "./schema";
 import { StyledLink } from "../../styles/link/link";
+import { UserContext } from "../../providers";
+import { useContext } from "react";
 
 export const LoginPage = () => {
+  const { submit } = useContext(UserContext);
   const {
     register,
     handleSubmit,
@@ -24,28 +23,6 @@ export const LoginPage = () => {
   } = useForm({
     resolver: yupResolver(loginSchema),
   });
-
-  const navigate = useNavigate();
-  const submit = async (data) => {
-    try {
-      const response = await api.post("/sessions", data);
-      window.localStorage.setItem("session", JSON.stringify(response.data));
-
-      navigate("/home");
-    } catch (error) {
-      toast("usuário ou senha inválidos", {
-        type: "error",
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-  };
 
   return (
     <>

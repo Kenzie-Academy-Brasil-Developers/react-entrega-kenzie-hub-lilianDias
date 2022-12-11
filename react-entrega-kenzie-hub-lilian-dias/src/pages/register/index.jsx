@@ -1,19 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "./Schema";
 import { Input, Select } from "../../components/input";
-import { Text } from "../../styles/tipography";
-import { Nav } from "../../components/nav";
 import { Btn } from "../../styles/buttons/buttons";
 import { StyledForm } from "../../styles/form/form";
 import { TextStyled } from "../../styles/tipography/Text";
 import { DivTextFormStyled } from "./register";
 import { NavLink } from "../../components/nav";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { api } from "../../api/api";
-import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../providers";
+import { useContext } from "react";
 
 export const RegisterPage = () => {
   const {
@@ -24,37 +22,7 @@ export const RegisterPage = () => {
     resolver: yupResolver(registerSchema),
   });
 
-  const navigate = useNavigate();
-  const submit = async (data) => {
-    try {
-      await api.post("/users", data);
-
-      toast("Registro efetuado com sucesso!", {
-        type: "success",
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      navigate("/");
-    } catch (error) {
-      toast("Verifique os campos!", {
-        type: "error",
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-  };
+  const { submitRegister } = useContext(UserContext);
 
   return (
     <>
@@ -73,7 +41,7 @@ export const RegisterPage = () => {
       {/* Same as */}
       <ToastContainer />
       <NavLink children={"Voltar"} to={"/"} />
-      <StyledForm onSubmit={handleSubmit(submit)} noValidate>
+      <StyledForm onSubmit={handleSubmit(submitRegister)} noValidate>
         <DivTextFormStyled>
           <TextStyled tag="span" fontSize="title-1" color="grey-0">
             Crie sua conta
