@@ -7,7 +7,6 @@ import { Card } from "../../components/cards";
 import { ModalAddTech, ModalTechDetails } from "../../components/modal";
 import { useContext } from "react";
 import { UserContext } from "../../providers";
-import { useState } from "react";
 import { UserTech } from "../../providers/userTech";
 
 export const HomePage = () => {

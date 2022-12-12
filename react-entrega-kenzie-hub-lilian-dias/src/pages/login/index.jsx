@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Text } from "../../styles/tipography";
 import { Btn } from "../../styles/buttons/buttons";
 import { StyledForm } from "../../styles/form/form";
@@ -15,7 +15,7 @@ import { UserContext } from "../../providers";
 import { useContext } from "react";
 
 export const LoginPage = () => {
-  const { submit } = useContext(UserContext);
+  const { submit, navigate } = useContext(UserContext);
   const {
     register,
     handleSubmit,
@@ -23,6 +23,14 @@ export const LoginPage = () => {
   } = useForm({
     resolver: yupResolver(loginSchema),
   });
+
+  useEffect(() => {
+    const token = localStorage.getItem("session");
+
+    if (token) {
+      navigate("/home", { replace: true });
+    }
+  }, [navigate]);
 
   return (
     <>

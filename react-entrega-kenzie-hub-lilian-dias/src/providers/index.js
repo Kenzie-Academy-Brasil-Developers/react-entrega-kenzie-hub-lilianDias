@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { api } from "../api/api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,9 +9,11 @@ export const UserContext = createContext({ user: null });
 export const Provider = ({ children }) => {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    async function loadUser() {
+    const loadUser = async () => {
       const token = localStorage.getItem("session");
       if (!token) {
         return;
@@ -30,13 +32,12 @@ export const Provider = ({ children }) => {
       } finally {
         setLoading(false);
       }
-    }
+    };
 
     loadUser();
   }, []);
 
   //função login//
-  const navigate = useNavigate();
   const submit = async (data) => {
     try {
       const response = await api.post("/sessions", data);
@@ -93,7 +94,15 @@ export const Provider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ submit, navigate, submitRegister, user, loading, setLoading }}
+      value={{
+        location,
+        submit,
+        navigate,
+        submitRegister,
+        user,
+        loading,
+        setLoading,
+      }}
     >
       {children}
     </UserContext.Provider>

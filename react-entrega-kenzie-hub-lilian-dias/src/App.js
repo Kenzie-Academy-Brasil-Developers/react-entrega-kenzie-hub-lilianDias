@@ -7,8 +7,9 @@ import { GlobalStyle } from "./styles/global";
 import "react-toastify/dist/ReactToastify.css";
 import { Provider } from "./providers";
 import { ProviderTech } from "./providers/userTech";
+import { ProtectedRoutes } from "./components/protectRouts";
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <GlobalStyle />
@@ -17,12 +18,14 @@ function App() {
           <Routes>
             <Route index path="/" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/home" element={<HomePage />} />
+            <Route element={<ProtectedRoutes />}>
+              <Route path="/home" element={<HomePage />} />
+            </Route>
           </Routes>
         </ProviderTech>
       </Provider>
     </div>
   );
-}
+};
 
 export default App;
